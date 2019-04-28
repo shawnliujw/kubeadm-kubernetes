@@ -49,4 +49,23 @@ Then access via http://localhost:3000 and use the default grafana user:password 
 Then access via    `http://localhost:9093`
 
 
-See more [here](https://github.com/coreos/kube-prometheus)
+See more [here](https://github.com/coreos/kube-prometheus)  
+
+## Config Private Docker Registry  
+* create secret  
+```bash
+kubectl create secret docker-registry-secret --dry-run=true $secret_name \
+--docker-server=<DOCKER_REGISTRY_SERVER> \
+--docker-username=<DOCKER_USER> \
+--docker-password=<DOCKER_PASSWORD> \
+--docker-email=<DOCKER_EMAIL>
+
+```
+* patch secret to default service account  
+`kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-registry-secret"}]}'`  
+then all the pods created in current namespace will have follow content:  
+```bash
+spec:
+  imagePullSecrets:
+  - name: docker-registry-secret
+```
