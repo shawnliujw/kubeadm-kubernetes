@@ -4,7 +4,7 @@ Use kubeadm setup kubernetes cluster and enable ingress-rbac, prometheus etc...
 ## Setup Cluster 
 * run `sh install.sh`
 
-##Configure Kubectl remote access   
+## Configure Kubectl remote access   
 copy `$HOME/.kube/config` to your localhost and edith below section：
  
 ```javascript
@@ -17,7 +17,7 @@ clusters:
 
 ```
 
-##Access Dashboard  
+## Access Dashboard  
 
 * Run `kubectl proxy`  
 * access `http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/`  
@@ -27,9 +27,9 @@ use the token generated above to login
 ##Serverless(Kubeless)  
 [Click Here](https://github.com/shawnliujw/serverless-kubernetes-sample/blob/master/README.md) to check the samples  
 
-##Monitor(Prometheus,Grafana,Alert)  
+## Monitor(Prometheus,Grafana,Alert)  
 
-###Install 
+### Install 
 `kubectl apply -f prometheus.yaml`
 ### Access  
 * Prometheus  
