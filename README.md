@@ -1,5 +1,6 @@
 # kubeadm-kubernetes  
-Use kubeadm setup kubernetes cluster and enable ingress-rbac, prometheus etc...
+Use kubeadm setup kubernetes cluster and enable ingress-rbac, prometheus etc...  
+Also check sample [spring boot kubernetes](https://github.com/shawnliujw/spring-boot-kubernetes) if you are interesting
 
 ## Setup Cluster 
 * run `sh install.sh`
