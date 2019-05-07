@@ -17,7 +17,7 @@ echo "disable master node isolate"
 kubectl taint nodes --all node-role.kubernetes.io/master-
 
 echo "Install Network Plugin"
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+kubectl apply -f  https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 echo "Config Ingress"
 

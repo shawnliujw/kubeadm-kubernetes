@@ -3,6 +3,7 @@ Use kubeadm setup kubernetes cluster and enable ingress-rbac, prometheus etc...
 Also check sample [spring boot kubernetes](https://github.com/shawnliujw/spring-boot-kubernetes) if you are interesting
 
 ## Setup Cluster 
+* Install docker first
 * prepare `sh prepare-ubuntu.sh` or `sh prepare-centos.sh`
 * setup `sh install.sh`
 

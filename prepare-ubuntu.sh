@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 echo "Install Docker"
 apt-get update && apt install -y docker.io apt-transport-https curl&& systemctl enable docker
 
