@@ -33,7 +33,7 @@ use the token generated above to login
 ## Monitor(Prometheus,Grafana,Alert)  
 
 ### Install 
-`kubectl apply -f prometheus.yaml`
+`kubectl apply -f monitor/`
 ### Access  
 * Prometheus  
 
