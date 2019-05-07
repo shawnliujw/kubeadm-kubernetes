@@ -5,7 +5,7 @@ Also check sample [spring boot kubernetes](https://github.com/shawnliujw/spring-
 ## Setup Cluster 
 * Install docker first
 * prepare `sh prepare-ubuntu.sh` or `sh prepare-centos.sh`
-* setup `sh install.sh`
+* setup `sh setup.sh`
 
 ## Configure Kubectl remote access   
 copy `$HOME/.kube/config` to your localhost and edith below section：
