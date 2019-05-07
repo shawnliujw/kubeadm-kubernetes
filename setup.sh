@@ -25,10 +25,9 @@ kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubern
 kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubernetes/master/kubeadm/ingress-controller.yaml
 
 echo "Configure Dashboard"
+kubectl apply -f https://raw.githubusercontent.com/shawnliujw/kubeadm-kubernetes/master/kubernetes-dashboard.yaml
 
-kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubernetes/master/kubeadm/kubernetes-dashboard.yaml
-
-kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubernetes/master/kubeadm/admin-role.yaml
+kubectl apply -f https://raw.githubusercontent.com/shawnliujw/kubeadm-kubernetes/master/admin-role.yaml
 
 
 
