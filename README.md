@@ -56,7 +56,7 @@ See more [here](https://github.com/coreos/kube-prometheus)
 ## Config Private Docker Registry  
 * create secret  
 ```bash
-kubectl create secret docker-registry-secret --dry-run=true $secret_name \
+kubectl create secret docker-registry --dry-run=true secret_name \
 --docker-server=<DOCKER_REGISTRY_SERVER> \
 --docker-username=<DOCKER_USER> \
 --docker-password=<DOCKER_PASSWORD> \
@@ -64,7 +64,7 @@ kubectl create secret docker-registry-secret --dry-run=true $secret_name \
 
 ```
 * patch secret to default service account  
-`kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "docker-registry-secret"}]}'`  
+`kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "secret_name"}]}'`  
 then all the pods created in current namespace will have follow content:  
 ```bash
 spec:
