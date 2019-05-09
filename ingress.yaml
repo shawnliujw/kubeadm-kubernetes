@@ -1,9 +1,15 @@
 ---
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: nginx-ingress-serviceaccount        # 创建一个serveerAcount
-  namespace: kube-system
+  namespace: ingress-nginx
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
@@ -61,7 +67,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   name: nginx-ingress-role                  # 这是一个角色，而非集群角色
-  namespace: kube-system
+  namespace: ingress-nginx
 rules:                                      # 角色的权限
   - apiGroups:
       - ""
@@ -104,7 +110,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding                                 # 角色绑定
 metadata:
   name: nginx-ingress-role-nisa-binding
-  namespace: kube-system
+  namespace: ingress-nginx
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -112,7 +118,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: nginx-ingress-serviceaccount            # 绑定在这个用户
-    namespace: kube-system
+    namespace: ingress-nginx
 ---
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding                           # 集群绑定
@@ -125,4 +131,61 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: nginx-ingress-serviceaccount      # 集群绑定到这个serviceacount
-    namespace: kube-system   # 集群角色是可以跨namespace，但是这里只指明给这个namespce来使用
+    namespace: ingress-nginx   # 集群角色是可以跨namespace，但是这里只指明给这个namespce来使用
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-ingress-controller
+  labels:
+    k8s-app: nginx-ingress-controller
+  namespace: ingress-nginx
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: nginx-ingress-controller
+    spec:
+      # hostNetwork makes it possible to use ipv6 and to preserve the source IP correctly regardless of docker configuration
+      # however, it is not a hard dependency of the nginx-ingress-controller itself and it may cause issues if port 10254 already is taken on the host
+      # that said, since hostPort is broken on CNI (https://github.com/kubernetes/kubernetes/issues/31307) we have to use hostNetwork where CNI is used
+      # like with kubeadm
+      # hostNetwork: true # 注释表示不使用宿主机的80口，
+      terminationGracePeriodSeconds: 60
+      hostNetwork: true  # 表示容器使用和宿主机一样的网络
+      serviceAccountName: nginx-ingress-serviceaccount # 引用前面创建的serviceacount
+      containers:
+        - name: nginx-ingress-controller  #容器名
+          #          image: docker.io/cdchen/nginx-ingress-controller:0.9.0-beta.12      # 容器使用的镜像
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.24.1
+          readinessProbe:   #启动这个服务时要验证/healthz 端口10254会在运行的node上监听。
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 10  # 每隔10做健康检查
+            timeoutSeconds: 1
+          ports:
+            - containerPort: 80
+              hostPort: 80    # 80映射到80
+            - containerPort: 443
+              hostPort: 443
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+#          args:
+#            - /nginx-ingress-controller
+#            - --default-backend-service=$(POD_NAMESPACE)/default-http-backend
+            #- --default-ssl-certificate=$(POD_NAMESPACE)/ingress-secret    # 这是启用Https时用的,这样所有的域名都配置里HTTPS

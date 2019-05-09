@@ -7,6 +7,7 @@ Also check sample [spring boot kubernetes](https://github.com/shawnliujw/spring-
 * prepare `sh prepare-ubuntu.sh` or `sh prepare-centos.sh`
 * setup `sh setup.sh`
 
+
 ## Configure Kubectl remote access   
 copy `$HOME/.kube/config` to your localhost and edith below section：
  
