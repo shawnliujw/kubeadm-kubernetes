@@ -21,8 +21,7 @@ kubectl apply -f  https://raw.githubusercontent.com/coreos/flannel/master/Docume
 
 echo "Config Ingress"
 
-kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubernetes/master/kubeadm/ingress-controller-rbac.yaml
-kubectl apply -f https://raw.githubusercontent.com/shawnliujw/spring-boot-kubernetes/master/kubeadm/ingress-controller.yaml
+kubectl apply -f https://raw.githubusercontent.com/shawnliujw/kubeadm-kubernetes/master/ingress.yaml
 
 echo "Configure Dashboard"
 kubectl apply -f https://raw.githubusercontent.com/shawnliujw/kubeadm-kubernetes/master/kubernetes-dashboard.yaml
