@@ -34,7 +34,7 @@ use the token generated above to login
 ## Monitor(Prometheus,Grafana,Alert)  
 
 ### Install 
-`kubectl apply -f monitor/`
+follow the instruction [Here](https://github.com/shawnliujw/kube-prometheus)
 ### Access  
 * Prometheus  
 
