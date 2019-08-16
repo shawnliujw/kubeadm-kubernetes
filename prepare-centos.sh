@@ -5,7 +5,7 @@ yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/d
 yum install -y docker-ce
 
 systemctl enable docker.service
-
+systemctl start docker
 
 yum install -y ebtables ethtool
 
